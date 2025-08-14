@@ -2,8 +2,9 @@ package logs
 
 import (
 	"regexp"
-	"swisslog_parse/utils"
 	"time"
+
+	"github.com/Lily34927/swisslog/utils"
 )
 
 type HtgmMsg struct {
