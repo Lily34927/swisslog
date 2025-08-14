@@ -57,9 +57,8 @@ func ParsePosition(pos string) string {
 	parts := strings.Split(pos, ", ")
 
 	for index, part := range parts {
-		if index == 3 { // 最后一个特殊处理
-			position += "00" + part
-			break
+		if index == 1 || index == 3 { // 第二位和最后一位保证占3bit，不足补0
+			part = fmt.Sprintf("%03s", part)
 		}
 		position += part
 	}

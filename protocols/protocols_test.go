@@ -3,6 +3,8 @@ package protocols
 import (
 	"log"
 	"testing"
+
+	"github.com/Lily34927/swisslog/utils"
 )
 
 func TestARQ(t *testing.T) {
@@ -18,9 +20,10 @@ func TestACP(t *testing.T) {
 }
 
 func TestIPR(t *testing.T) {
-	msg := "Pos: (21, 22, 4996, 1), AssigId: 00000000, TuType: 00, Height: 0, WidthRight: 0, WidthLeft: 0, LengthFront: 0, LengthBack: 0, Weight: 0000000, Tunnel: 0, Runner: 0, TuIdP: 1, TuId:                   , ScanErr: 000, LabelLength: 105, Label: 91018739113100012507020269540991"
+	msg := "Pos: (21, 14, 4821, 1), AssigId: 00000000, TuType: 00, Height: 0, WidthRight: 0, WidthLeft: 0, LengthFront: 0, LengthBack: 0, Weight: 0000000, Tunnel: 0, Runner: 0, TuIdP: 1, TuId:                   , ScanErr: 000, LabelLength: 105, Label: 91018739113100012507210274144895"
 	var h = &HtgmIPR{}
 	NewProtocols(h, msg)
+	utils.StructToMap(h)
 }
 
 func TestMSGOUT(t *testing.T) {
@@ -29,7 +32,7 @@ func TestMSGOUT(t *testing.T) {
 	NewProtocols(h, msg)
 }
 
-func TestMSG000(t *testing.T) {
+func TestMSG_(t *testing.T) {
 	msg := "MsgNumber: 002, Label: 211044551001100000000000000000000"
 	h, err := NewHtgmMSG(msg)
 	if err != nil {
