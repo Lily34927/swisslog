@@ -2,7 +2,8 @@ package protocols
 
 import (
 	"strings"
-	"swisslog_parse/utils"
+
+	"github.com/Lily34927/swisslog/utils"
 )
 
 // ARQ协议
@@ -53,22 +54,22 @@ func (h *HtgmACP) Parse(msg string) error {
 
 // IPR协议
 type HtgmIPR struct {
-	Pos         string   `json:"position"`    // 工位
-	AssigId     string   `json:"assigId"`     // 事务ID
-	TuType      string   `json:"tyType"`      // 类型
+	Pos         string `json:"position"`    // 工位
+	AssigId     string `json:"assigId"`     // 事务ID
+	TuType      string `json:"tyType"`      // 类型
 	Height      string `json:"height"`      // 件烟箱的基础信息，高度
 	WidthRight  string `json:"widthRight"`  // 件烟箱的基础信息，右宽度
 	WidthLeft   string `json:"widthLeft"`   // 件烟箱的基础信息，左宽度
 	LengthFront string `json:"lengthFront"` // 件烟箱的基础信息，前长度
 	LengthBack  string `json:"lengthBack"`  // 件烟箱的基础信息，后长度
 	Weight      string `json:"weight"`      // 件烟箱的基础信息，重量
-	Tunnel      string      `json:"tunnel"`      // 隧道标识
-	Runner      string      `json:"runner"`      // 运行标识
-	TuIdP       string   `json:"tuIdP"`       // ID标识
-	TuId        string   `json:"tuId"`        // ID
-	ScanErr     string   `json:"scanErr"`     // 扫描错误码
-	LabelLength int      `json:"labelLength"` // 标签长度，不准确
-	Label       string   `json:"label"`       // 标签内容
+	Tunnel      string `json:"tunnel"`      // 隧道标识
+	Runner      string `json:"runner"`      // 运行标识
+	TuIdP       string `json:"tuIdP"`       // ID标识
+	TuId        string `json:"tuId"`        // ID
+	ScanErr     string `json:"scanErr"`     // 扫描错误码
+	LabelLength int    `json:"labelLength"` // 标签长度，不准确
+	Label       string `json:"label"`       // 标签内容
 }
 
 func (h *HtgmIPR) Parse(msg string) error {
@@ -122,10 +123,9 @@ func (h *HtgmMSGOUT) Parse(msg string) error {
 	return nil
 }
 
-
 // MSG001协议
 type HtgmMSG001 struct {
-	MsgNumber string `json:"msgNumber"`
+	MsgNumber     string `json:"msgNumber"`
 	CigaretteCode string `json:"cigaretteCode"` // 1~6位：品牌规格代码的后六位(卷烟牌号)
 	Src           string `json:"src"`           // 7~18位：工位码，Packaging Line(包装线)的工位
 	LaneNumber    int    `json:"laneNumber"`    // 19-38位: 巷道号(物理位置从左到右)
@@ -149,7 +149,7 @@ func (h *HtgmMSG001) Parse(msg string) error {
 
 // MSG002协议
 type HtgmMSG002 struct {
-	MsgNumber string   `json:"msgNumber"`
+	MsgNumber  string `json:"msgNumber"`
 	Src        string `json:"src"`        // 1~12位：工位码，包装线(packaging line)工位
 	Status     int    `json:"status"`     // 13位：订单状态，1代表订单结束(Closed), 2代表订单完成(Completed)
 	LaneNumber int    `json:"laneNumber"` // 19-38位: 巷道号(物理位置从左到右)
@@ -171,8 +171,8 @@ func (h *HtgmMSG002) Parse(msg string) error {
 
 // MSG005协议
 type HtgmMSG005 struct {
-	MsgNumber string   `json:"msgNumber"`
-	Src string `json:"src"` // 1~12位：码垛巷道末尾(抓取)工位
+	MsgNumber string `json:"msgNumber"`
+	Src       string `json:"src"` // 1~12位：码垛巷道末尾(抓取)工位
 }
 
 func (h *HtgmMSG005) Parse(msg string) error {
@@ -189,8 +189,8 @@ func (h *HtgmMSG005) Parse(msg string) error {
 
 // MSG006协议
 type HtgmMSG006 struct {
-	MsgNumber string   `json:"msgNumber"`
-	Src string `json:"src"` // 1~12位：注册装箱线工位
+	MsgNumber string `json:"msgNumber"`
+	Src       string `json:"src"` // 1~12位：注册装箱线工位
 }
 
 func (h *HtgmMSG006) Parse(msg string) error {
@@ -207,7 +207,7 @@ func (h *HtgmMSG006) Parse(msg string) error {
 
 // MSG007协议
 type HtgmMSG007 struct {
-	MsgNumber string   `json:"msgNumber"`
+	MsgNumber string `json:"msgNumber"`
 	BarCodeID string `json:"barCodeID"` // 1~32位：件烟箱的32位ID号
 	ErrCode   string `json:"errCode"`   // 33~35位：WMS返回的错误码(Error Code)，订单已经关闭（101），无效的件烟箱ID（102），无效的规则ID（103）
 }
@@ -227,7 +227,7 @@ func (h *HtgmMSG007) Parse(msg string) error {
 
 // MSG008协议
 type HtgmMSG008 struct {
-	MsgNumber string   `json:"msgNumber"`
+	MsgNumber  string `json:"msgNumber"`
 	Dst        string `json:"dst"`        // 1~12位：工位码，码垛工位
 	PalletType string `json:"palletType"` // 13~18位：托盘类型
 	BoxCount   int    `json:"boxCount"`   // 19~20位：指出托盘上有几箱件烟，通常是00
