@@ -1,14 +1,14 @@
 package protocols
 
 import (
-	"swisslog_parse/utils"
+	"github.com/Lily34927/swisslog/utils"
 )
 
-type Protocols interface{
+type Protocols interface {
 	Parse(string) error
 }
 
-func NewProtocols (p Protocols, msg string){
+func NewProtocols(p Protocols, msg string) {
 	p.Parse(msg)
 	utils.StructToMap(p)
 }
