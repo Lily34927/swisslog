@@ -1,12 +1,10 @@
 package logs
 
-import "github.com/Lily34927/swisslog/utils"
-
 type Msg interface {
 	Parse(string) error
 }
 
 func NewMsg(m Msg, line string) {
 	m.Parse(line)
-	utils.StructToMap(m)
+	// utils.StructToMap(m)
 }

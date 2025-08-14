@@ -1,6 +1,7 @@
 package protocols
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/Lily34927/swisslog/utils"
@@ -123,9 +124,44 @@ func (h *HtgmMSGOUT) Parse(msg string) error {
 	return nil
 }
 
+// MSG协议
+type HtgmMSG interface { // 和Protocols重复，为了方便理解，供 MSG 协议调用
+	Parse(msg string) error
+}
+
+type MsgHeader struct {
+	MsgNumber string `json:"msgNumber"`
+}
+
+func NewHtgmMSG(msg string) (HtgmMSG, error) {
+	results, err := utils.ParseMsg(msg)
+	if err != nil {
+		return nil, err
+	}
+
+	msgNumber := results["MsgNumber"]
+	var h = MsgHeader{MsgNumber: msgNumber}
+	switch msgNumber {
+	case "001":
+		return &HtgmMSG001{MsgHeader: h}, nil
+	case "002":
+		return &HtgmMSG002{MsgHeader: h}, nil
+	case "005":
+		return &HtgmMSG005{MsgHeader: h}, nil
+	case "006":
+		return &HtgmMSG006{MsgHeader: h}, nil
+	case "007":
+		return &HtgmMSG007{MsgHeader: h}, nil
+	case "008":
+		return &HtgmMSG008{MsgHeader: h}, nil
+	default:
+		return nil, fmt.Errorf("不在解析范围内, msg number: %s", msgNumber)
+	}
+}
+
 // MSG001协议
 type HtgmMSG001 struct {
-	MsgNumber     string `json:"msgNumber"`
+	MsgHeader
 	CigaretteCode string `json:"cigaretteCode"` // 1~6位：品牌规格代码的后六位(卷烟牌号)
 	Src           string `json:"src"`           // 7~18位：工位码，Packaging Line(包装线)的工位
 	LaneNumber    int    `json:"laneNumber"`    // 19-38位: 巷道号(物理位置从左到右)
@@ -138,7 +174,6 @@ func (h *HtgmMSG001) Parse(msg string) error {
 		return err
 	}
 
-	h.MsgNumber = results["MsgNumber"]
 	label := results["Label"]
 	h.CigaretteCode = label[0:6]
 	h.Src = label[6:18]
@@ -149,7 +184,7 @@ func (h *HtgmMSG001) Parse(msg string) error {
 
 // MSG002协议
 type HtgmMSG002 struct {
-	MsgNumber  string `json:"msgNumber"`
+	MsgHeader
 	Src        string `json:"src"`        // 1~12位：工位码，包装线(packaging line)工位
 	Status     int    `json:"status"`     // 13位：订单状态，1代表订单结束(Closed), 2代表订单完成(Completed)
 	LaneNumber int    `json:"laneNumber"` // 19-38位: 巷道号(物理位置从左到右)
@@ -161,7 +196,6 @@ func (h *HtgmMSG002) Parse(msg string) error {
 		return err
 	}
 
-	h.MsgNumber = results["MsgNumber"]
 	label := results["Label"]
 	h.Src = label[0:12]
 	h.Status = utils.StringToInt(label[12:13])
@@ -171,8 +205,8 @@ func (h *HtgmMSG002) Parse(msg string) error {
 
 // MSG005协议
 type HtgmMSG005 struct {
-	MsgNumber string `json:"msgNumber"`
-	Src       string `json:"src"` // 1~12位：码垛巷道末尾(抓取)工位
+	MsgHeader
+	Src string `json:"src"` // 1~12位：码垛巷道末尾(抓取)工位
 }
 
 func (h *HtgmMSG005) Parse(msg string) error {
@@ -181,7 +215,6 @@ func (h *HtgmMSG005) Parse(msg string) error {
 		return err
 	}
 
-	h.MsgNumber = results["MsgNumber"]
 	label := results["Label"]
 	h.Src = label[0:12]
 	return nil
@@ -189,8 +222,8 @@ func (h *HtgmMSG005) Parse(msg string) error {
 
 // MSG006协议
 type HtgmMSG006 struct {
-	MsgNumber string `json:"msgNumber"`
-	Src       string `json:"src"` // 1~12位：注册装箱线工位
+	MsgHeader
+	Src string `json:"src"` // 1~12位：注册装箱线工位
 }
 
 func (h *HtgmMSG006) Parse(msg string) error {
@@ -199,7 +232,6 @@ func (h *HtgmMSG006) Parse(msg string) error {
 		return err
 	}
 
-	h.MsgNumber = results["MsgNumber"]
 	label := results["Label"]
 	h.Src = label[0:12]
 	return nil
@@ -207,7 +239,7 @@ func (h *HtgmMSG006) Parse(msg string) error {
 
 // MSG007协议
 type HtgmMSG007 struct {
-	MsgNumber string `json:"msgNumber"`
+	MsgHeader
 	BarCodeID string `json:"barCodeID"` // 1~32位：件烟箱的32位ID号
 	ErrCode   string `json:"errCode"`   // 33~35位：WMS返回的错误码(Error Code)，订单已经关闭（101），无效的件烟箱ID（102），无效的规则ID（103）
 }
@@ -218,7 +250,6 @@ func (h *HtgmMSG007) Parse(msg string) error {
 		return err
 	}
 
-	h.MsgNumber = results["MsgNumber"]
 	label := results["Label"]
 	h.BarCodeID = label[0:32]
 	h.ErrCode = label[32:35]
@@ -227,7 +258,7 @@ func (h *HtgmMSG007) Parse(msg string) error {
 
 // MSG008协议
 type HtgmMSG008 struct {
-	MsgNumber  string `json:"msgNumber"`
+	MsgHeader
 	Dst        string `json:"dst"`        // 1~12位：工位码，码垛工位
 	PalletType string `json:"palletType"` // 13~18位：托盘类型
 	BoxCount   int    `json:"boxCount"`   // 19~20位：指出托盘上有几箱件烟，通常是00
@@ -239,7 +270,6 @@ func (h *HtgmMSG008) Parse(msg string) error {
 		return err
 	}
 
-	h.MsgNumber = results["MsgNumber"]
 	label := results["Label"]
 	h.Dst = label[0:12]
 	h.PalletType = label[12:18]

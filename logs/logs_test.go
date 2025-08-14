@@ -5,8 +5,8 @@ import (
 )
 
 func TestHtgm(t *testing.T) {
-	day := "2025-07-01 "
-	line := "09:00:18 [ToHost: POR [Pos: (11, 123, 4263, 1), AssigId: 06191855, TuType: 01, Load Info: 1, Dst: 111254268001, rCode: 000, TuIdP: 1, TuId: E045EE0004206203  ]]"
+	// day := "2025-07-22 "
+	line := "2025-07-22 00:20:23 [ToHost: MSG_OUT [MsgNumber: 004, Label: 210144828001111034216001N291018739113100012507210274067583;91018739113100012507210274097791;   ]]"
 	var h = &HtgmMsg{}
-	NewMsg(h, day + line)
+	NewMsg(h, line)
 }

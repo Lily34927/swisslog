@@ -14,15 +14,15 @@ func ParseMsg(msg string) (map[string]string, error) {
 
 	pairs := []string{}
 	flag := false // 区分postion中的逗号
-	start := 0 // pair开始的下标
-	for index, character := range msg{
-		switch character{
+	start := 0    // pair开始的下标
+	for index, character := range msg {
+		switch character {
 		case '(':
 			flag = true
 		case ')':
 			flag = false
 		case ',':
-			if !flag{
+			if !flag {
 				pairs = append(pairs, msg[start:index]) // 不包含逗号
 				start = index + 1
 			}
@@ -30,20 +30,20 @@ func ParseMsg(msg string) (map[string]string, error) {
 	}
 
 	// 处理最后一个 pair
-	if start < len(msg){
+	if start < len(msg) {
 		pairs = append(pairs, msg[start:])
 	}
 
-	for _, pair := range pairs{
+	for _, pair := range pairs {
 		parts := strings.SplitN(pair, ": ", 2)
-		if len(parts)==2{
-			key := strings.TrimSpace(parts[0]) // 去头尾空格
+		if len(parts) == 2 {
+			key := strings.TrimSpace(parts[0])   // 去头尾空格
 			value := strings.TrimSpace(parts[1]) // 去头尾空格
 			results[key] = value
-		}	
+		}
 	}
 
-	fmt.Println("results:", results)
+	// fmt.Println("results:", results)
 
 	return results, nil
 }
