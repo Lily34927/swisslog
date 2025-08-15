@@ -2,6 +2,7 @@ package protocols
 
 import (
 	"fmt"
+	"log"
 	"strings"
 
 	"github.com/Lily34927/swisslog/utils"
@@ -274,6 +275,8 @@ func (h *HtgmMSG008) Parse(msg string) error {
 	h.Dst = label[0:12]
 	h.PalletType = label[12:18]
 	h.BoxCount = utils.StringToInt(label[18:20])
+
+	log.Println(h.MsgNumber)
 	return nil
 }
 

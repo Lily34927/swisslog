@@ -40,6 +40,35 @@ func TestMSG_(t *testing.T) {
 		return
 	}
 	NewProtocols(h, msg)
+
+	h2, ok := h.(*HtgmMSG002)
+	if ok {
+		log.Println("Parsed MsgNumber from HtgmMSG002:", h2.MsgNumber)
+	} else {
+		log.Println("h is not of type *HtgmMSG002")
+	}
+
+	// 如果你已经确认 h 是 *HtgmMSG002 类型，打印 MsgNumber
+	log.Println("Final MsgNumber:", h2.MsgNumber)
+
+	// switch v := h.(type) {
+	// case *HtgmMSG001:
+	// 	h = v
+	// case *HtgmMSG002:
+	// 	h = v
+	// case *HtgmMSG005:
+	// 	log.Println("MsgNumber from HtgmMSG005 after Parse:", v.MsgNumber)
+	// case *HtgmMSG006:
+	// 	log.Println("MsgNumber from HtgmMSG006 after Parse:", v.MsgNumber)
+	// case *HtgmMSG007:
+	// 	log.Println("MsgNumber from HtgmMSG007 after Parse:", v.MsgNumber)
+	// case *HtgmMSG008:
+	// 	log.Println("MsgNumber from HtgmMSG008 after Parse:", v.MsgNumber)
+	// default:
+	// 	log.Println("Unknown type")
+	// }
+	// log.Println(h.MsgNumber)
+
 }
 
 func TestMSG001(t *testing.T) {

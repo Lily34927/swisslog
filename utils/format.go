@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"fmt"
 	"strconv"
 	"time"
 )
@@ -17,7 +18,16 @@ func StringToBool(s string) bool {
 	return false
 }
 
-func StringToTime(s string) (time.Time, error){
-	timeStamp, err := time.Parse("2006-01-02 15:04:05", s)
-	return timeStamp, err
+func StringToTime(s string) (time.Time, error) {
+	location, err := time.LoadLocation("Asia/Shanghai")
+	if err != nil {
+		return time.Time{}, fmt.Errorf("加载时区失败: %w", err)
+	}
+
+	timeStamp, err := time.ParseInLocation("2006-01-02 15:04:05", s, location)
+	if err != nil {
+		return time.Time{}, fmt.Errorf("时间解析失败: %w", err)
+	}
+
+	return timeStamp.In(location), nil
 }
