@@ -3,6 +3,7 @@ package utils
 import (
 	"fmt"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -30,4 +31,8 @@ func StringToTime(s string) (time.Time, error) {
 	}
 
 	return timeStamp.In(location), nil
+}
+
+func StringToSlices(s string) []string {
+	return strings.Split(s, " ")
 }

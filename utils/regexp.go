@@ -5,7 +5,7 @@ import (
 	"regexp"
 )
 
-func GetRegExpMap(re *regexp.Regexp, line string) (map[string]string, error){
+func GetRegExpMap(re *regexp.Regexp, line string) (map[string]string, error) {
 	result := map[string]string{}
 
 	matches := re.FindStringSubmatch(line)
