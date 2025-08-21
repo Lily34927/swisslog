@@ -106,3 +106,24 @@ func TestSDO(t *testing.T) {
 	var h = &HtgmSDO{}
 	NewProtocols(h, msg)
 }
+
+func TestHstARQ(t *testing.T) {
+	msg := "05 06261379 CM 01 31-010-953-00-01 31-010-027-05-01 RE HI FU FU"
+	var h = &HstARQ{}
+	NewProtocols(h, msg)
+	utils.StructToMap(h)
+}
+
+func TestHstACP(t *testing.T) {
+	msg := "05 06261379 31-010-027-05-00 UL-UL UL-UL 000 0"
+	var h = &HstACP{}
+	NewProtocols(h, msg)
+	utils.StructToMap(h)
+}
+
+func TestHstCSR(t *testing.T) {
+	msg := "05 06261466 1 069486 UL-UL UL-UL 05 000"
+	var h = &HstCSR{}
+	NewProtocols(h, msg)
+	utils.StructToMap(h)
+}
