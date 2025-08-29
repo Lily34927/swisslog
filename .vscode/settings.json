@@ -1,0 +1,5 @@
+{
+    "powerquery.client.additionalSymbolsDirectories": [
+        "/home/lily/swisslog/.vscode/excel-pq-symbols"
+    ]
+}
