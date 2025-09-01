@@ -5,16 +5,16 @@ import "github.com/Lily34927/swisslog/utils"
 // ARQ协议
 type HstARQ struct {
 	// 05 06261379 CM 01 31-010-953-00-01 31-010-027-05-01 RE HI FU FU
-	CraneNumber int    `json:"craneNumber"`
-	AssignId    string `json:"assignId"`
-	AssignType  string `json:"assignType"`
-	TuType      string `json:"tuType"`
-	Src         string `json:"src"`
-	Dst         string `json:"dst"`
-	Fork        string `json:"fork"`
-	Speed       string `json:"speed"`
-	RearFork    string `json:"rearFork"`
-	FrontFork   string `json:"frontFork"`
+	CraneNumber   int    `json:"craneNumber"`
+	AssignId      string `json:"assignId"`
+	AssignType    string `json:"assignType"`
+	TuType        int    `json:"tuType"`
+	Src           string `json:"src"`
+	CranePosition string `json:"cranePosition"`
+	Fork          string `json:"fork"`
+	Speed         string `json:"speed"`
+	RearFork      string `json:"rearFork"`
+	FrontFork     string `json:"frontFork"`
 }
 
 func (h *HstARQ) Parse(msg string) error {
@@ -23,9 +23,9 @@ func (h *HstARQ) Parse(msg string) error {
 	h.CraneNumber = utils.StringToInt(result[0])
 	h.AssignId = result[1]
 	h.AssignType = result[2]
-	h.TuType = result[3]
-	h.Src = result[4]
-	h.Dst = result[5]
+	h.TuType = utils.StringToInt(result[3])
+	h.Src = utils.StringRemoveDashes(result[4])
+	h.CranePosition = utils.StringRemoveDashes(result[5])
 	h.Fork = result[6]
 	h.Speed = result[7]
 	h.RearFork = result[8]
@@ -37,7 +37,7 @@ func (h *HstARQ) Parse(msg string) error {
 type HstACP struct {
 	CraneNumber     int    `json:"craneNumber"`
 	AssignId        string `json:"assignId"`
-	CranePosition   string `json:"cranePosition"`
+	CranePosition   string `json:"cranePosition"` // 同ARQ中的CranePosition
 	RearFork        string `json:"rearFork"`
 	FrontFork       string `json:"frontFork"`
 	ReturnCode      string `json:"returnCode"`
@@ -50,7 +50,7 @@ func (h *HstACP) Parse(msg string) error {
 
 	h.CraneNumber = utils.StringToInt(result[0])
 	h.AssignId = result[1]
-	h.CranePosition = result[2]
+	h.CranePosition = utils.StringRemoveDashes(result[2])
 	h.RearFork = result[3]
 	h.FrontFork = result[4]
 	h.ReturnCode = result[5]

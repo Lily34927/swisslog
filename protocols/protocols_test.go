@@ -11,6 +11,7 @@ func TestARQ(t *testing.T) {
 	msg := "Src: (11, 127, 4014, 1), Dst: (11, 141, 4015, 2), AssigId: 06191892, TuType: 1, IoData: 0, TuIdPresent: True, TuId: E045EE0003D0060B"
 	var h = &HtgmARQ{}
 	NewProtocols(h, msg)
+	utils.StructToMap(h)
 }
 
 func TestACP(t *testing.T) {

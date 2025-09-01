@@ -36,3 +36,7 @@ func StringToTime(s string) (time.Time, error) {
 func StringToSlices(s string) []string {
 	return strings.Split(s, " ")
 }
+
+func StringRemoveDashes(s string) string {
+	return strings.ReplaceAll(s, "-", "")
+}
