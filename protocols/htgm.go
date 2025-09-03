@@ -308,8 +308,8 @@ func (h *HtgmSDI) Parse(msg string) error {
 
 // SDO协议
 type HtgmSDO struct {
-	HostBitId string `json:"hostBitId"`
-	Value     int    `json:"value"`
+	HostBitId int `json:"hostBitId"`
+	Value     int `json:"value"`
 }
 
 func (h *HtgmSDO) Parse(msg string) error {
@@ -318,7 +318,7 @@ func (h *HtgmSDO) Parse(msg string) error {
 		return err
 	}
 
-	h.HostBitId = results["HostBitId"]
+	h.HostBitId = utils.StringToInt(results["HostBitId"])
 	h.Value = utils.StringToInt(results["Value"])
 	return nil
 }
