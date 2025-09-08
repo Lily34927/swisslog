@@ -67,6 +67,12 @@ func ParsePosition(pos string) string {
 }
 
 // 16条码垛巷道，得到对应LaneNumber
-func GetLaneNumber(lane string) int { // 返回 0 表示没有找到
-	return strings.Index(lane, "1") + 1
+func GetLaneNumber(lane string) []int { // 修改
+	var results = []int{}
+	for index, char := range lane {
+		if char == '1' {
+			results = append(results, index+1)
+		}
+	}
+	return results
 }
