@@ -139,7 +139,7 @@ type HtgmMSG001 struct {
 	MsgNumber     string `json:"msgNumber"`
 	CigaretteCode string `json:"cigaretteCode"` // 1~6位：品牌规格代码的后六位(卷烟牌号)
 	Src           string `json:"src"`           // 7~18位：工位码，Packaging Line(包装线)的工位
-	LaneNumber    int    `json:"laneNumber"`    // 19-38位: 巷道号(物理位置从左到右)
+	LaneNumber    []int  `json:"laneNumber"`    // 19-38位: 巷道号(物理位置从左到右)
 	StackType     int    `json:"stackType"`     // 39-41位: 码垛类型
 }
 
@@ -163,7 +163,7 @@ type HtgmMSG002 struct {
 	MsgNumber  string `json:"msgNumber"`
 	Src        string `json:"src"`        // 1~12位：工位码，包装线(packaging line)工位
 	Status     int    `json:"status"`     // 13位：订单状态，1代表订单结束(Closed), 2代表订单完成(Completed)
-	LaneNumber int    `json:"laneNumber"` // 19-38位: 巷道号(物理位置从左到右)
+	LaneNumber []int  `json:"laneNumber"` // 19-38位: 巷道号(物理位置从左到右)
 }
 
 func (h *HtgmMSG002) Parse(msg string) error {

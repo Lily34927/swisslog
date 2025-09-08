@@ -55,9 +55,10 @@ func TestMSG_(t *testing.T) {
 }
 
 func TestMSG001(t *testing.T) {
-	msg := "MsgNumber: 001, Label: 07520621106453100100001000000000000000001"
+	msg := "MsgNumber: 001, Label: 01873921117460100100000110000000000000006"
 	var h = &HtgmMSG001{}
 	NewProtocols(h, msg)
+	utils.StructToMap(h)
 }
 
 func TestMSG002(t *testing.T) {
