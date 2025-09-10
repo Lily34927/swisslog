@@ -119,7 +119,7 @@ func (h *HtgmMSGOUT) Parse(msg string) error {
 	h.Dst = label[12:24]
 	h.IsLast = utils.StringToBool(label[24:25])
 	h.BoxCount = utils.StringToInt(label[25:26])
-	h.BoxIDs = strings.Split(label[26:], ";")
+	h.BoxIDs = strings.Split(strings.TrimSpace(label[26:]), ";")
 	return nil
 }
 
