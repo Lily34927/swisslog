@@ -8,7 +8,7 @@ type HstARQ struct {
 	CraneNumber   int    `json:"craneNumber"`
 	AssignId      string `json:"assignId"`
 	AssignType    string `json:"assignType"`
-	TuType        int    `json:"tuType"`
+	TuType        string `json:"tuType"`
 	Src           string `json:"src"`
 	CranePosition string `json:"cranePosition"`
 	Fork          string `json:"fork"`
@@ -23,7 +23,7 @@ func (h *HstARQ) Parse(msg string) error {
 	h.CraneNumber = utils.StringToInt(result[0])
 	h.AssignId = result[1]
 	h.AssignType = result[2]
-	h.TuType = utils.StringToInt(result[3])
+	h.TuType = result[3]
 	h.Src = utils.StringRemoveDashes(result[4])
 	h.CranePosition = utils.StringRemoveDashes(result[5])
 	h.Fork = result[6]
