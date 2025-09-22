@@ -67,6 +67,13 @@ func TestMSG002(t *testing.T) {
 	NewProtocols(h, msg)
 }
 
+func TestMSG003(t *testing.T) {
+	msg := "MsgNumber: 003, Label: 91212236113100012509100032898199101"
+	var h = &HtgmMSG003{}
+	NewProtocols(h, msg)
+	utils.StructToMap(h)
+}
+
 func TestMSG005(t *testing.T) {
 	msg := "MsgNumber: 005, Label: 210024948001"
 	var h = &HtgmMSG005{}
@@ -89,6 +96,20 @@ func TestMSG008(t *testing.T) {
 	msg := "MsgNumber: 008, Label: 11105422200199999900"
 	var h = &HtgmMSG008{}
 	NewProtocols(h, msg)
+}
+
+func TestMSG009(t *testing.T) {
+	msg := "MsgNumber: 009, Label: 0752061001"
+	var h = &HtgmMSG009{}
+	NewProtocols(h, msg)
+	utils.StructToMap(h)
+}
+
+func TestMSG010(t *testing.T) {
+	msg := "MsgNumber: 010, Label: 91075206113100012508020305281152000"
+	var h = &HtgmMSG010{}
+	NewProtocols(h, msg)
+	utils.StructToMap(h)
 }
 
 func TestPOR(t *testing.T) {

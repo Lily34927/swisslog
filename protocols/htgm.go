@@ -180,6 +180,26 @@ func (h *HtgmMSG002) Parse(msg string) error {
 	return nil
 }
 
+// MSG003协议
+type HtgmMSG003 struct {
+	MsgNumber string `json:"msgNumber"`
+	BarCodeID string `json:"barCodeID"` // 1~32位：件烟箱的32位ID号
+	ErrCode   string `json:"errCode"`   // 33~35位：101代表订单未激活, 102代表无效的ID(ID重复注册); 103代表无效的规则ID(忽略)
+}
+
+func (h *HtgmMSG003) Parse(msg string) error {
+	results, err := utils.ParseMsg(msg)
+	if err != nil {
+		return err
+	}
+
+	h.MsgNumber = results["MsgNumber"]
+	label := results["Label"]
+	h.BarCodeID = label[0:32]
+	h.ErrCode = label[32:35]
+	return nil
+}
+
 // MSG005协议
 type HtgmMSG005 struct {
 	MsgNumber string `json:"msgNumber"`
@@ -255,6 +275,48 @@ func (h *HtgmMSG008) Parse(msg string) error {
 	h.Dst = label[0:12]
 	h.PalletType = label[12:18]
 	h.BoxCount = utils.StringToInt(label[18:20])
+	return nil
+}
+
+// MSG009协议
+type HtgmMSG009 struct {
+	MsgNumber string `json:"msgNumber"`
+	Brand     string `json:"brand"`    // 1~6位：牌号，激活时给出牌号，关闭时给出000000
+	IsManual  bool   `json:"isManual"` // 7位：开启人工码垛，1开启，0关闭
+	EndCode   string `json:"endCode"`  // 8~10位：结束码，可以忽略不计
+}
+
+func (h *HtgmMSG009) Parse(msg string) error {
+	results, err := utils.ParseMsg(msg)
+	if err != nil {
+		return err
+	}
+
+	h.MsgNumber = results["MsgNumber"]
+	label := results["Label"]
+	h.Brand = label[0:6]
+	h.IsManual = utils.StringToBool(label[6:7])
+	h.EndCode = label[7:10]
+	return nil
+}
+
+// MSG010协议
+type HtgmMSG010 struct {
+	MsgNumber string `json:"msgNumber"`
+	BarCodeID string `json:"barCodeID"` // 1~32位：件烟箱的32位ID号
+	ErrCode   string `json:"errCode"`   // 33~35位：注册结果，Pass(000)，101(码垛通道1暂时不可用)，102(无效的件烟箱ID)，103(无效的规则ID)
+}
+
+func (h *HtgmMSG010) Parse(msg string) error {
+	results, err := utils.ParseMsg(msg)
+	if err != nil {
+		return err
+	}
+
+	h.MsgNumber = results["MsgNumber"]
+	label := results["Label"]
+	h.BarCodeID = label[0:32]
+	h.ErrCode = label[32:35]
 	return nil
 }
 
